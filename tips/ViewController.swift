@@ -14,12 +14,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var billField: UITextField!
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
+    var tipPercantage = 0.18
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        tipLabel.text = "$0.00"
-        totalLabel.text = "$0.00"
+        let userLocale = NSLocale.currentLocale()
+        let currencySymbol = userLocale.objectForKey(NSLocaleCurrencySymbol) as! String
+        print(currencySymbol)
+        tipLabel.text = currencySymbol + "0.00"
+        totalLabel.text = currencySymbol + "0.00"
         
     }
 
@@ -29,6 +33,10 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onEditingChanged(sender: AnyObject) {
+        let userLocale = NSLocale.currentLocale()
+        let currencySymbol = userLocale.objectForKey(NSLocaleCurrencySymbol) as! String
+        print(currencySymbol)
+        
         var tipPercentages = [0.18,0.2,0.22]
         let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
         
@@ -37,8 +45,8 @@ class ViewController: UIViewController {
         let tip = billAmount * tipPercentage
         let total = billAmount + tip
         
-        tipLabel.text = String(format: "$%.2f", tip)
-        totalLabel.text = String(format: "$%.2f", total)
+        tipLabel.text = currencySymbol + String(format: "%.2f", tip)
+        totalLabel.text = currencySymbol + String(format: "%.2f", total)
         
     }
 
