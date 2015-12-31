@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         print(currencySymbol)
         tipLabel.text = currencySymbol + "0.00"
         totalLabel.text = currencySymbol + "0.00"
+
         
     }
 
@@ -33,20 +34,25 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onEditingChanged(sender: AnyObject) {
-        let userLocale = NSLocale.currentLocale()
-        let currencySymbol = userLocale.objectForKey(NSLocaleCurrencySymbol) as! String
-        print(currencySymbol)
         
         var tipPercentages = [0.18,0.2,0.22]
         let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
         
         
-        let billAmount = NSString(string: billField.text!).doubleValue
+        let billAmount = NSString(string: (billField.text)!).doubleValue
         let tip = billAmount * tipPercentage
         let total = billAmount + tip
         
-        tipLabel.text = currencySymbol + String(format: "%.2f", tip)
-        totalLabel.text = currencySymbol + String(format: "%.2f", total)
+        
+        let numberFormatter = NSNumberFormatter()
+        numberFormatter.numberStyle = .CurrencyStyle
+        
+        let tipText = numberFormatter.stringFromNumber(NSNumber(double: tip))
+        
+        let totalText = numberFormatter.stringFromNumber(NSNumber(double: total))
+        
+        tipLabel.text = tipText
+        totalLabel.text = totalText
         
     }
 
